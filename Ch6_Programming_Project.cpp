@@ -1,5 +1,6 @@
 /*FileName: Ch6_Programming_Project.cpp
 Programmer: Sean G
+Project: Rectangle Properties
 Requirements:
 
 Apply modular, procedural programming principles in C++.
@@ -21,8 +22,8 @@ Implement repetition controlled by user choice.
 #include <iomanip>
 using namespace std;
 
-void getdimensions(double& length, double& width);
-void calculateperimeterarea(double length, double width, double& perimeter, double& area);
+void getdimensions(double & length, double & width);
+void calculateperimeterarea(double length, double width, double & perimeter, double & area);
 void displayresults(double length, double width, double perimeter, double area);
 bool asktocontinue();
 
@@ -39,7 +40,7 @@ int main()
 	}
 	return 0;
 }
-void getdimensions(double& length, double& width) 
+void getdimensions(double & length, double & width) 
 {
 	do {
 		cout << "All numbers must be greater than 0.\n";
