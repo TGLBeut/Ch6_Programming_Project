@@ -1,5 +1,6 @@
 /*FileName: Ch6_Programming_Project.cpp
 Programmer: Sean G
+Project: Safest Driving Area Project Instructions
 Requirements:
 
 Apply modular, procedural programming principles in C++.
@@ -10,70 +11,55 @@ Test modular programs systematically with provided and self-created data sets.
 Reflect on challenges, solutions, and lessons learned in modular programming.
 Refactor programs to improve readability, structure, and maintainability when needed.
 Use GitHub to organize and submit modular projects.
-
-Use modular functions for input, validation, calculation, and output.
-Pass values by reference when functions return multiple results.
-Calculate and display perimeter and area for rectangles.
-Implement repetition controlled by user choice.
 */
 
 #include <iostream>
-#include <iomanip>
+#include <string>
 using namespace std;
 
-void getdimensions(double& length, double& width);
-void calculateperimeterarea(double length, double width, double& perimeter, double& area);
-void displayresults(double length, double width, double perimeter, double area);
-bool asktocontinue();
-
+void getreginfo(string & regionname, int& numaccidents);
+bool islower(int accidents1, int accidents2);
+void showlowest(const string & regionname, int numaccidents);
 int main() 
 {
-	double length, width, perimeter, area;
-	bool continueProgram = true;
+	const int Num_Regions = 3;
+	string lowestregionname;
+	int lowestaccidents;
+	
+	getreginfo(lowestregionname, lowestaccidents);
+	
+	for (int i = 1; i < Num_Regions; ++i) {
+		string currentregionname;
 
-	while (continueProgram) {
-		getdimensions(length, width);
-		calculateperimeterarea(length, width, perimeter, area);
-		displayresults(length, width, perimeter, area);
-		continueProgram = asktocontinue();
+		int currentaccidents;
+		getreginfo(currentregionname, currentaccidents);
+		
+		if (islower(currentaccidents, lowestaccidents)) {
+			lowestregionname = currentregionname;
+			lowestaccidents = currentaccidents;
+		}
 	}
+	showlowest(lowestregionname, lowestaccidents);
 	return 0;
 }
-void getdimensions(double& length, double& width) 
-{
-	do {
-		cout << "All numbers must be greater than 0.\n";
-		cout << "Enter the length of the rectangle: ";
-		cin >> length;
-		if (length <= 0) {
-			cout << "Invalid input. Length must be greater than 0.\n";
-		}
-	} while (length <= 0);
+void getreginfo(string & regionname, int & numaccidents) {
+	cout << "Enter the name of the region: ";
+	getline(cin, regionname);
 
 	do {
-		cout << "Enter the width of the rectangle: ";
-		cin >> width;
-		if (width <= 0) {
-			cout << "Invalid input. Width must be greater than 0.\n";
-		}
-	} 
-	while (width <= 0);
-}
-void calculateperimeterarea(double length, double width, double& perimeter, double& area) {
-	perimeter = 2 * (length + width);
-	area = length * width;
-}
-void displayresults(double length, double width, double perimeter, double area) {
-	cout << fixed << setprecision(2);
-	cout << "For a rectangle with the length of " << length << " and the width of " << width << ":\n";
-	cout << "Perimeter: " << perimeter << endl;
-	cout << "Area: " << area << endl;
-}
-bool asktocontinue() {
-	char choice;
-	cout << "Do you want to calculate another rectangle? (y/n): ";
-	cin >> choice;
-	cout << endl;
+		cout << "Enter the number of accidents reported last year (>= 0): ";
+		cin >> numaccidents;
 
-	return (choice == 'y' || choice == 'Y');
+		if (numaccidents < 0) {
+			cout << "Failed input. Please enter a number greater than 0.\n";
+		}
+	} while (numaccidents < 0);
+	cin.ignore();
+}
+bool islower(int accidents1, int accidents2) {
+	return accidents1 <= accidents2;
+}
+void showlowest(const string & regionname, int numaccidents) {
+	cout << "The safest region for driving is: " << regionname << endl;
+	cout << "Number of accidents reported last year: " << numaccidents << endl;
 }
