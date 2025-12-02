@@ -1,6 +1,6 @@
 /*FileName: Ch6_Programming_Project.cpp
 Programmer: Sean G
-Project: Rectangle Properties
+Project: Paint Job Estimator
 Requirements:
 
 Use modular functions to calculate gallons of paint, labor hours, and costs.
