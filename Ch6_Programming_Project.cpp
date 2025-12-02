@@ -3,78 +3,88 @@ Programmer: Sean G
 Project: Rectangle Properties
 Requirements:
 
-Apply modular, procedural programming principles in C++.
-Design and document user-defined functions with clear preconditions, postconditions, and meaningful comments.
-Use modular decomposition (hierarchy charts, pseudocode, and structure charts) to plan programs before coding.
-Apply input validation to ensure correctness and robustness.
-Test modular programs systematically with provided and self-created data sets.
-Reflect on challenges, solutions, and lessons learned in modular programming.
-Refactor programs to improve readability, structure, and maintainability when needed.
-Use GitHub to organize and submit modular projects.
+Use modular functions to calculate gallons of paint, labor hours, and costs.
+Validate input for number of rooms, paint price, and square footage.
+Apply constants for labor and material rates.
+Generate a complete cost estimate for paint jobs using accumulated totals.
 
-Use modular functions for input, validation, calculation, and output.
-Pass values by reference when functions return multiple results.
-Calculate and display perimeter and area for rectangles.
-Implement repetition controlled by user choice.
+
 */
 
 #include <iostream>
+#include <cmath>
 #include <iomanip>
 using namespace std;
+// Constants
+const double Gallons_per_sqft = 1.0 / 110.0;
+const double Labor_per_sqft = 8.0 / 110.0;
+const double Labor_charge_per_hour = 25.0;
 
-void getdimensions(double & length, double & width);
-void calculateperimeterarea(double length, double width, double & perimeter, double & area);
-void displayresults(double length, double width, double perimeter, double area);
-bool asktocontinue();
+int getrooms();
+double getsqft();
+double getpricepergallon();
+int gallonsforroom(double sqft);
+void displayestimate(double paintcharge, int gallonsneeded, double laborcharge, double laborhours);
 
 int main() 
 {
-	double length, width, perimeter, area;
-	bool continueProgram = true;
-
-	while (continueProgram) {
-		getdimensions(length, width);
-		calculateperimeterarea(length, width, perimeter, area);
-		displayresults(length, width, perimeter, area);
-		continueProgram = asktocontinue();
+	double paintCharge = 0.0;
+	double laborCharge = 0.0;
+	int gallonsNeeded = 0;
+	double laborHours = 0.0;
+	int numRooms = getrooms();
+	for (int i = 0; i < numRooms; ++i) {
+		double squareFeet = getsqft();
+		int gallons = gallonsforroom(squareFeet);
+		gallonsNeeded += gallons;
+		double paintPrice = getpricepergallon();
+		paintCharge += gallons * paintPrice;
+		double labor = squareFeet * Labor_per_sqft;
+		laborHours += labor;
+		laborCharge += labor * Labor_charge_per_hour;
 	}
+	displayestimate(paintCharge, gallonsNeeded, laborCharge, laborHours);
 	return 0;
 }
-void getdimensions(double & length, double & width) 
+int getrooms() 
 {
+	int rooms;
 	do {
-		cout << "All numbers must be greater than 0.\n";
-		cout << "Enter the length of the rectangle: ";
-		cin >> length;
-		if (length <= 0) {
-			cout << "Invalid input. Length must be greater than 0.\n";
-		}
-	} while (length <= 0);
-
+		cout << "Enter the number of rooms to be painted (must be > 0): ";
+		cin >> rooms;
+	} while (rooms < 1);
+	return rooms;
+}
+double getsqft() 
+{
+	double sqft;
 	do {
-		cout << "Enter the width of the rectangle: ";
-		cin >> width;
-		if (width <= 0) {
-			cout << "Invalid input. Width must be greater than 0.\n";
-		}
-	} 
-	while (width <= 0);
+		cout << "Enter the square footage of wall space in the room (must be >= 0): ";
+		cin >> sqft;
+	} while (sqft < 0);
+	return sqft;
 }
-void calculateperimeterarea(double length, double width, double& perimeter, double& area) {
-	perimeter = 2 * (length + width);
-	area = length * width;
+double getpricepergallon() 
+{
+	double price;
+	do {
+		cout << "Enter the price of paint per gallon (must be >= $10.00): ";
+		cin >> price;
+	} while (price < 10.0);
+	return price;
 }
-void displayresults(double length, double width, double perimeter, double area) {
+int gallonsforroom(double sqft) 
+{
+	return static_cast<int>(ceil(sqft * Gallons_per_sqft));
+}
+void displayestimate(double paintcharge, int gallonsneeded, double laborcharge, double laborhours) 
+{
 	cout << fixed << setprecision(2);
-	cout << "For a rectangle with the length of " << length << " and the width of " << width << ":\n";
-	cout << "Perimeter: " << perimeter << endl;
-	cout << "Area: " << area << endl;
-}
-bool asktocontinue() {
-	char choice;
-	cout << "Do you want to calculate another rectangle? (y/n): ";
-	cin >> choice;
-	cout << endl;
-
-	return (choice == 'y' || choice == 'Y');
+	cout << "\nEstimate for Painting Job:\n";
+	cout << "-----------------------------------\n";
+	cout << "Gallons of paint required: " << gallonsneeded << " gallons\n";
+	cout << "Hours of labor required: " << laborhours << " hours\n";
+	cout << "Cost of the paint: $" << paintcharge << "\n";
+	cout << "Labor charges: $" << laborcharge << "\n";
+	cout << "Total cost of the paint job: $" << (paintcharge + laborcharge) << "\n";
 }
