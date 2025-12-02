@@ -3,15 +3,6 @@ Programmer: Sean G
 Project: Rectangle Properties
 Requirements:
 
-Apply modular, procedural programming principles in C++.
-Design and document user-defined functions with clear preconditions, postconditions, and meaningful comments.
-Use modular decomposition (hierarchy charts, pseudocode, and structure charts) to plan programs before coding.
-Apply input validation to ensure correctness and robustness.
-Test modular programs systematically with provided and self-created data sets.
-Reflect on challenges, solutions, and lessons learned in modular programming.
-Refactor programs to improve readability, structure, and maintainability when needed.
-Use GitHub to organize and submit modular projects.
-
 Use modular functions for input, validation, calculation, and output.
 Pass values by reference when functions return multiple results.
 Calculate and display perimeter and area for rectangles.
